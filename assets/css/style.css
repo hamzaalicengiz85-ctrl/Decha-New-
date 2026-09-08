@@ -1,0 +1,602 @@
+/* =========================================================================
+   DECHA — Design Tokens
+   Palet: Siyah (zemin) · Turuncu (vurgu) · Metalik gri (ikincil) · Beyaz (metin)
+   ========================================================================= */
+:root {
+  /* Renk — ham değerler */
+  --ink-900: #08080A;   /* ana arka plan */
+  --ink-800: #0E0F12;
+  --ink-700: #16171B;   /* yükseltilmiş yüzey */
+  --steel-600: #23252B; /* metalik kenarlık */
+  --steel-400: #4A4E57;
+  --steel-300: #8A9099; /* metalik gri metin */
+  --steel-200: #B9BEC7;
+  --white: #FFFFFF;
+
+  --ember-600: #E24A0C;
+  --ember-500: #FF6A1A; /* birincil vurgu */
+  --ember-400: #FF8A3D;
+  --ember-300: #FFB169;
+
+  /* Renk — anlamsal tokenlar */
+  --bg: var(--ink-900);
+  --surface: var(--ink-700);
+  --border: var(--steel-600);
+  --text: var(--white);
+  --text-muted: var(--steel-300);
+  --accent: var(--ember-500);
+  --accent-strong: var(--ember-600);
+  --on-accent: #180701;
+
+  /* Tipografi */
+  --font-display: "Sora", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* Aralık ölçeği (pazarlama sayfası — ferah) */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4rem;
+  --space-7: 6rem;
+
+  /* Yapı */
+  --container: 1200px;
+  --header-h: 72px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-pill: 999px;
+
+  /* Hareket */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 160ms;
+  --dur-base: 280ms;
+  --dur-slow: 520ms;
+}
+
+/* =========================================================================
+   Reset & taban
+   ========================================================================= */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + var(--space-3));
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;          /* 16px taban */
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+button { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--ember-400);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--space-3);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-2);
+  top: -100px;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: top var(--dur-fast) var(--ease-out);
+}
+.skip-link:focus-visible { top: var(--space-2); }
+
+/* =========================================================================
+   Header — sticky + glassmorphism
+   ========================================================================= */
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  background: rgba(8, 8, 10, 0.55);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out);
+}
+
+/* backdrop-filter desteklenmiyorsa metin okunur kalsın */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .header { background: rgba(8, 8, 10, 0.94); }
+}
+
+.header.is-scrolled {
+  background: rgba(8, 8, 10, 0.82);
+  border-bottom-color: rgba(255, 255, 255, 0.10);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--header-h);
+}
+
+/* Logo */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 0;
+}
+.logo__img {
+  height: 34px;
+  width: auto;
+  border-radius: 8px;
+}
+.logo__text {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.375rem;
+  letter-spacing: 0.16em;
+  color: var(--white);
+  padding-right: 0.75rem;
+}
+.logo__dot {
+  position: absolute;
+  right: 0;
+  bottom: 0.42em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px rgba(255, 106, 26, 0.9);
+}
+
+/* Menü */
+.nav__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;            /* dokunma hedefi */
+  padding: 0 0.875rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--steel-200);
+  border-radius: var(--radius-sm);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0.875rem;
+  right: 0.875rem;
+  bottom: 0.55rem;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.nav__link:hover { color: var(--white); }
+.nav__link:hover::after,
+.nav__link:focus-visible::after { transform: scaleX(1); }
+
+/* Hamburger */
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.nav-toggle__bar {
+  width: 18px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: transform var(--dur-base) var(--ease-out),
+              opacity var(--dur-fast) var(--ease-out);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* =========================================================================
+   Hero
+   ========================================================================= */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-top: calc(var(--header-h) + var(--space-5));
+  padding-bottom: var(--space-6);
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #101014 0%, var(--ink-900) 55%),
+    var(--ink-900);
+}
+
+.hero__bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+
+.hero__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+}
+.hero__glow--ember {
+  right: -6%;
+  top: 14%;
+  width: 46vw;
+  max-width: 640px;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(255, 106, 26, 0.55) 0%, rgba(255, 106, 26, 0) 68%);
+}
+.hero__glow--steel {
+  left: -12%;
+  bottom: -14%;
+  width: 40vw;
+  max-width: 560px;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(138, 144, 153, 0.22) 0%, rgba(138, 144, 153, 0) 70%);
+}
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(80% 60% at 50% 40%, #000 0%, transparent 78%);
+  -webkit-mask-image: radial-gradient(80% 60% at 50% 40%, #000 0%, transparent 78%);
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 var(--space-3);
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--steel-200);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+}
+.hero__eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(255, 106, 26, 0.9);
+}
+
+.hero__title {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5.4vw, 4.25rem);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.hero__title-accent {
+  display: block;
+  background: linear-gradient(100deg, var(--ember-300) 0%, var(--ember-500) 45%, var(--ember-600) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__text {
+  max-width: 52ch;
+  margin: 0 0 var(--space-4);
+  font-size: clamp(1rem, 1.15vw, 1.125rem);
+  color: var(--text-muted);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Butonlar */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 52px;
+  padding: 0 1.75rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out),
+              background-color var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out),
+              color var(--dur-base) var(--ease-out);
+}
+
+.btn--primary {
+  color: var(--on-accent);
+  background: linear-gradient(135deg, var(--ember-400) 0%, var(--ember-500) 45%, var(--ember-600) 100%);
+  box-shadow: 0 10px 30px rgba(255, 106, 26, 0.28);
+}
+/* Hover'da üstten geçen parlama */
+.btn--primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.55) 50%, transparent 80%);
+  transform: translateX(-120%);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.btn--primary:hover,
+.btn--primary:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 44px rgba(255, 106, 26, 0.45);
+}
+.btn--primary:hover::before,
+.btn--primary:focus-visible::before { transform: translateX(120%); }
+.btn--primary:active { transform: translateY(0); }
+
+.btn__icon { transition: transform var(--dur-base) var(--ease-out); }
+.btn--primary:hover .btn__icon { transform: translateX(4px); }
+
+.btn--ghost {
+  color: var(--steel-200);
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--border);
+}
+.btn--ghost:hover,
+.btn--ghost:focus-visible {
+  color: var(--white);
+  border-color: var(--steel-400);
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateY(-2px);
+}
+
+/* =========================================================================
+   Ember Orb — imza figürü
+   Not: assets/img/decha-ember-orb.jpg varsa onu kullanır,
+        yoksa saf CSS ile üretilen küre görünür.
+   ========================================================================= */
+.hero__visual {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.orb {
+  position: relative;
+  width: clamp(230px, 30vw, 420px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  isolation: isolate;
+  background: radial-gradient(circle at 34% 28%,
+      #FFF0CF 0%, #FFC46B 13%, #FF8A2B 32%, #EE4F14 54%, #90210A 78%, #2B0B04 100%);
+  box-shadow:
+    0 0 70px rgba(255, 106, 26, 0.42),
+    0 0 160px rgba(255, 106, 26, 0.22),
+    inset -22px -30px 62px rgba(0, 0, 0, 0.55),
+    inset 18px 22px 56px rgba(255, 196, 128, 0.28);
+  animation: float 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.orb__photo,
+.orb > span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+.orb__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 3;
+}
+
+/* İç akkor çekirdek */
+.orb__core {
+  background: radial-gradient(circle at 42% 40%,
+      rgba(255, 245, 214, 0.95) 0%, rgba(255, 158, 66, 0.5) 22%, rgba(255, 90, 20, 0) 58%);
+  mix-blend-mode: screen;
+  animation: pulse 4.5s ease-in-out infinite;
+}
+
+/* Dönen lav dokusu */
+.orb__lava {
+  background:
+    radial-gradient(closest-side at 68% 62%, rgba(255, 132, 40, 0.75), transparent 62%),
+    radial-gradient(closest-side at 30% 70%, rgba(214, 58, 10, 0.7), transparent 60%),
+    conic-gradient(from 210deg, rgba(255, 170, 80, 0.30), rgba(120, 28, 6, 0.35), rgba(255, 120, 30, 0.30), rgba(255, 170, 80, 0.30));
+  mix-blend-mode: overlay;
+  filter: blur(6px);
+  animation: swirl 22s linear infinite;
+}
+
+/* Cam yansıması */
+.orb__glass {
+  background:
+    radial-gradient(ellipse 46% 30% at 32% 22%, rgba(255, 255, 255, 0.55), transparent 70%),
+    radial-gradient(ellipse 60% 22% at 62% 88%, rgba(255, 190, 130, 0.28), transparent 72%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.10);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.orb__shadow {
+  position: absolute;
+  bottom: -6%;
+  left: 50%;
+  translate: -50% 0;
+  width: 58%;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 106, 26, 0.30), transparent 70%);
+  filter: blur(14px);
+  animation: shadow-pulse 7s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(-14px); }
+  50%      { transform: translateY(14px); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.85; }
+  50%      { opacity: 1; }
+}
+@keyframes swirl {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes shadow-pulse {
+  0%, 100% { opacity: 0.75; transform: translate(-50%, 0) scale(1.06); }
+  50%      { opacity: 0.45; transform: translate(-50%, 0) scale(0.9); }
+}
+
+/* Sonraki adımlarda doldurulacak bölümlerin kaydırma hedefleri */
+.section-anchor { scroll-margin-top: var(--header-h); }
+
+/* =========================================================================
+   Responsive
+   ========================================================================= */
+@media (max-width: 960px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    text-align: center;
+    justify-items: center;
+  }
+  .hero__text { margin-inline: auto; }
+  .hero__actions { justify-content: center; }
+  .orb { width: clamp(220px, 34vw, 340px); }
+  .hero__visual { order: -1; }
+}
+
+@media (max-width: 768px) {
+  :root { --header-h: 64px; }
+
+  .nav-toggle { display: inline-flex; }
+
+  .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(8, 8, 10, 0.94);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-2) var(--space-3) var(--space-3);
+    transform: translateY(-12px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--dur-base) var(--ease-out),
+                transform var(--dur-base) var(--ease-out),
+                visibility var(--dur-base);
+  }
+  .nav.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .nav__list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .nav__link {
+    display: flex;                 /* satır tüm genişliği kaplasın */
+    padding: 0 0.75rem;
+    min-height: 52px;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0;
+  }
+  .nav__link::after { display: none; }
+
+  .hero { padding-top: calc(var(--header-h) + var(--space-4)); }
+  .btn { width: 100%; }
+  .hero__actions {
+    width: min(340px, 100%);
+    margin-inline: auto;
+  }
+  .orb { width: clamp(190px, 46vw, 260px); }
+}
+
+/* =========================================================================
+   Hareket azaltma tercihi
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .orb { transform: none; }
+}
+
+/* Opsiyonel görseller: dosya varsa JS ile gösterilir, yoksa CSS fallback kalır */
+img[data-optional-image] { display: none; }

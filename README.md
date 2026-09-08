@@ -53,3 +53,32 @@ design-system/decha/MASTER.md   # renk/tipografi/aralık kararları
 - `prefers-reduced-motion: reduce` tüm animasyonları devre dışı bırakır.
 - Animasyonlar yalnızca `transform` / `opacity` üzerinde çalışır (layout thrash yok).
 - `backdrop-filter` desteklenmeyen tarayıcılarda header opak arka plana düşer.
+
+## Kurulu Skill: UI/UX Pro Max
+
+Tasarım kararları için `ui-ux-pro-max` skill'i projeye kuruludur:
+
+```
+.claude/skills/ui-ux-pro-max/
+  SKILL.md        # kullanım talimatları
+  data/           # 79 stil, 192 palet, 74 font eşleşmesi, 119 UX kuralı, 22 stack
+  references/     # quick-reference.md, pro-rules.md
+  scripts/        # search.py ve yardımcıları
+```
+
+- Kaynak: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill (v2.13.0, MIT)
+- Kurulum commit'i: upstream `4aad058` (2026-09-06)
+- Geliştirme testleri (`scripts/tests/`) kurulumdan çıkarıldı; çalışma zamanında gerekmiyor.
+
+Kullanım:
+
+```bash
+# Odaklı arama
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "glassmorphism dark premium" --domain style
+
+# Stack rehberi
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "hero section responsive" --stack html-tailwind
+
+# Komple tasarım sistemi önerisi
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "digital agency portfolio dark" --design-system -p "DECHA"
+```

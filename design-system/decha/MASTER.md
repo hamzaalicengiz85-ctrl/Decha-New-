@@ -63,3 +63,28 @@ Turuncu asla küçük gövde metni için zemin üstü metin rengi olarak kullan�
 - Gri üstüne gri düşük kontrastlı metin
 - Bileşen içinde ham hex değeri (her zaman token)
 - Sabit px konteyner genişliği / yatay kaydırma
+
+---
+
+## Not: skill veri tabanı kurulumu (sonradan eklendi)
+
+`ui-ux-pro-max` skill'i artık veri tabanıyla birlikte `.claude/skills/ui-ux-pro-max/`
+altında kurulu. Doğrulama sorgusu çalıştırıldı:
+
+```
+search.py "digital agency portfolio dark premium" --design-system -p "DECHA"
+```
+
+Veri tabanının önerisi: *Liquid Glass* stili, **açık temalı** "premium black + gold"
+paleti (`#FAFAF9` zemin, `#A16207` altın vurgu) ve **Cormorant / Montserrat** tipografi.
+
+Bu öneri **uygulanmadı**: marka briefi siyah zemin + turuncu vurgu ve modern/teknik
+bir ton istiyor; altın-lüks yönü briefe aykırı. Aşağıdaki noktalar ise veri tabanı
+çıktısıyla örtüştüğü için doğrulanmış sayılır:
+
+- Glassmorphism gereksinimleri: `backdrop-filter: blur(10–20px)`, 1px translucent
+  kenarlık, metin kontrastı ≥ 4.5:1, `reduced-motion` desteği — hepsi uygulandı.
+- Teslim öncesi kontrol listesi: emoji ikon yok (SVG), hover geçişleri 150–300ms,
+  görünür odak halkaları, `prefers-reduced-motion`, 375/768/1024/1440 kırılımları.
+- Kaçınılacaklar: "ucuz görünüm + çok hızlı animasyon" — orb ve buton süreleri
+  buna göre yavaş tutuldu (7s süzülme, 280ms geçiş).

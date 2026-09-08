@@ -88,3 +88,21 @@ bir ton istiyor; altın-lüks yönü briefe aykırı. Aşağıdaki noktalar ise 
   görünür odak halkaları, `prefers-reduced-motion`, 375/768/1024/1440 kırılımları.
 - Kaçınılacaklar: "ucuz görünüm + çok hızlı animasyon" — orb ve buton süreleri
   buna göre yavaş tutuldu (7s süzülme, 280ms geçiş).
+
+---
+
+## Adım 2 — veri tabanı sorguları ve uygulanan kararlar
+
+| Sorgu | Sonuç | Uygulama |
+|---|---|---|
+| `"services feature cards grid" --domain landing` | **Feature-Rich Showcase**: Hero → 4-6 kartlık özellik grid'i, kart başına tek mesaj | 4 kart, her kartta tek net vaat |
+| `"scroll reveal stagger" --domain gsap` | **Scroll Reveal / Subtle**: y 8-16px, 300-400ms, `power1.out`, viewport girişinde, tek seferlik | 14px / 380ms / `ease-out`, IntersectionObserver, `unobserve` ile tek seferlik |
+| aynı sorgunun "Don't" maddesi | "JS olmadan görünmeyen içerik bırakma" | reveal stilleri yalnızca `.js` altında; JS kapalıyken içerik görünür |
+| `"card hover elevation focus keyboard" --domain ux` | Görünür odak halkası zorunlu; odak sticky içerikle kapanmamalı | `:focus-visible` korunuyor, `scroll-padding-top` header yüksekliği kadar |
+| `"mobile app development..." --domain icons` | 0 sonuç → daralttım: `"device mobile phone"` | Phosphor outline setinden `device-mobile`, `trend-up`, `share`, `monitor` adlarına karşılık gelen satır içi SVG'ler |
+
+Kart bileşeni tokenları: zemin `#1F2024 → #1A1A1D` gradyan, kenarlık `--steel-600`,
+hover kenarlık `rgba(255,106,26,.55)`, kalkış `-8px`, geçiş `280ms`.
+
+Kontrast: kart gövde metni `#8A9099` / kart zemini `#1C1D21` ≈ 4.9:1 (AA ✓),
+kart başlığı beyaz ≈ 14.7:1 (AAA ✓).

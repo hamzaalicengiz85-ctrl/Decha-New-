@@ -69,7 +69,43 @@
   if (desktop.addEventListener) desktop.addEventListener("change", onBreakpoint);
   else desktop.addListener(onBreakpoint); // eski Safari
 
-  /* ---------- 3) Opsiyonel görseller ----------
+  /* ---------- 3) Scroll reveal ----------
+     ui-ux-pro-max "Scroll Reveal / Subtle": viewport girişinde tetikle,
+     küçük y offset, tek seferlik. Elemanlar CSS'te yalnızca .js altında
+     gizlendiği için JS çalışmazsa içerik olduğu gibi görünür. */
+  var revealTargets = document.querySelectorAll("[data-reveal]");
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function showAll() {
+    Array.prototype.forEach.call(revealTargets, function (el) {
+      el.classList.add("is-visible");
+    });
+  }
+
+  if (!("IntersectionObserver" in window) || reduceMotion.matches) {
+    showAll();
+  } else {
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.05 }
+    );
+
+    Array.prototype.forEach.call(revealTargets, function (el) {
+      // aynı grup içindeki elemanlar kademeli (stagger) girsin
+      var group = el.parentNode;
+      var position = Array.prototype.indexOf.call(group.children, el);
+      el.style.setProperty("--reveal-delay", Math.min(position, 5) * 70 + "ms");
+      observer.observe(el);
+    });
+  }
+
+  /* ---------- 4) Opsiyonel görseller ----------
      decha-logo.jpg / decha-ember-orb.jpg repoya eklenirse otomatik
      kullanılır; yoksa CSS ile üretilen logo ve küre görünür kalır. */
   Array.prototype.forEach.call(

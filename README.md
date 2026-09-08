@@ -14,7 +14,21 @@ Bağımlılık yok: saf HTML + CSS + vanilla JS.
 - **Hero** — ekranı kaplayan karşılama bölümü: başlık, açıklama, turuncu CTA
   butonu (hover'da parlama + yukarı kalkma) ve sağda süzülen "ember orb".
 
-`#hizmetler`, `#islerimiz`, `#iletisim` bölümleri şimdilik yalnızca boş kaydırma
+## Adım 2 — Hizmetler
+
+- **"Neler Yapıyoruz?"** bölümü (`#hizmetler`), siyah zemin devam ediyor.
+- Ortalanmış başlık + altında turuncu vurgu çizgisi (`.section__rule`).
+- 4 hizmet kartı: geniş ekranda 4'lü, ≤1100px'te 2x2, ≤640px'te alt alta.
+- Kartlar metalik koyu gri (`#1F2024 → #1A1A1D`), hover'da yukarı kalkıyor
+  (`translateY(-8px)`), turuncu kenarlık + turuncu gölge parlıyor, üst kenarda
+  ışık şeridi beliriyor ve ikon turuncuya doluyor.
+- **Scroll reveal:** IntersectionObserver ile viewport'a girince kademeli
+  (70ms stagger) fade-up. `ui-ux-pro-max` motion veri tabanındaki
+  "Scroll Reveal / Subtle" profiline uygun (y offset 14px, 380ms, tek seferlik).
+  Stiller yalnızca `.js` sınıfı altında uygulandığı için **JS kapalıyken içerik
+  görünür kalır**; `prefers-reduced-motion` açıkken de anında görünür.
+
+`#islerimiz` ve `#iletisim` bölümleri şimdilik yalnızca boş kaydırma
 hedefleridir; sonraki adımlarda içerikleri eklenecek.
 
 ## Görseller

@@ -1,8 +1,27 @@
+# bağımlılıklar
+node_modules/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+
+# ortam değişkenleri
+.env
+.env.local
+.env*.local
+
+# yüklenen içerik görselleri (depoya değil sunucuya ait)
+content/uploads/*
+!content/uploads/.gitkeep
+
+# işletim sistemi / editör
 .DS_Store
 Thumbs.db
-node_modules/
 .vscode/
 .idea/
 *.log
+
+# python
 __pycache__/
 *.py[cod]

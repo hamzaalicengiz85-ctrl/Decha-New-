@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+/* =========================================================================
+   DECHA — tasarım sistemi
+   Editoryal monokrom: sıcak kemik beyazı metin, mürekkep siyahı zemin,
+   ölçülü soğuk vurgu. Serif display + grotesk gövde + mono etiket.
+   ========================================================================= */
+@theme {
+  /* Yüzeyler — mürekkep siyahından yukarı doğru */
+  --color-ink: #08080a;
+  --color-ink-raised: #0f0f12;
+  --color-ink-high: #16161b;
+
+  /* Metin — saf beyaz yerine sıcak kemik: ekranda daha editoryal durur */
+  --color-bone: #f5f1ea;
+  --color-bone-dim: #b9b4ac;
+  --color-muted: #8b8b93;
+
+  /* Vurgu — soğuk indigo; kemik beyazının sıcaklığıyla kasıtlı kontrast.
+     --color-accent üzerine beyaz metin 6.3:1, AA üstü. */
+  --color-accent: #4f46e5;
+  --color-accent-hover: #4338ca;
+  --color-accent-soft: #a5b4fc;
+
+  --color-danger: #f87171;
+  --color-danger-soft: #fca5a5;
+
+  /* 4/8pt uzamsal ızgara */
+  --spacing: 0.25rem;
+
+  --radius-card: 1rem;
+  --radius-pill: 999px;
+
+  /* Yazı tipleri layout.tsx'te next/font ile bağlanıyor */
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", monospace;
+
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 45%, transparent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-soft);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Başlıklarda rakam ve harfler aynı ritimde otursun */
+  h1,
+  h2,
+  h3 {
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+}
+
+@layer utilities {
+  /* "Mükemmel plastik" görünümü kıran %1'lik film grenli doku */
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* 1px'lik parlayan kenarlık: kart üstünde ince ışık çizgisi */
+  .hairline {
+    box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.06);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "site": {
+    "brandName": "DECHA",
+    "seoTitle": "",
+    "seoDescription": "",
+    "heroEyebrow": "",
+    "heroHeadline": "",
+    "heroHighlight": "",
+    "heroBody": "",
+    "primaryCtaLabel": "",
+    "secondaryCtaLabel": "",
+    "servicesTitle": "",
+    "servicesBody": "",
+    "workTitle": "",
+    "workBody": "",
+    "contactTitle": "",
+    "contactBody": "",
+    "footerNote": ""
+  },
+  "services": [],
+  "projects": [],
+  "contact": {
+    "email": "",
+    "phone": "",
+    "location": "",
+    "formEndpoint": ""
+  },
+  "socials": [],
+  "updatedAt": ""
+}

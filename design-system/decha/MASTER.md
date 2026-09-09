@@ -168,3 +168,30 @@ iki buton bilinçli olarak farklı tonda.
 `html { scroll-padding-top }` tek başına yeterli; `.section` üzerinde ayrıca
 `scroll-margin-top` vermek boşluğu ikiye katlıyordu (96px yerine 168px).
 `scroll-margin-top` kaldırıldı.
+
+---
+
+## Adım 5 — veri tabanı sorguları ve uygulanan kararlar
+
+| Sorgu | Sonuç | Uygulama |
+|---|---|---|
+| `"back to top floating button" --domain ux` | **"Back Button"** (severity: High): tarayıcı geri davranışı bozulmamalı | Buton `<a href="#hero">` değil `<button>` + `window.scrollTo`; hash ve `history.length` değişmiyor (test edildi) |
+| `"mobile font size readability" --domain ux` | **"Readable Font Size"** (severity: High): mobilde gövde metni en az 16px | 375px'te 16px altındaki tüm gövde metinleri büyütüldü; kalanlar UI mikro-kopyası |
+
+### Yukarı çık butonu tokenları
+
+Boyut 52px (≤640px'te 48px), tam yuvarlak, `--ember-400 → --ember-600` gradyan,
+gölge `0 10px 30px rgba(255,106,26,.35)`, hover'da `-3px` kalkış,
+`:active` `scale(0.94)`. Eşik: `max(320px, innerHeight * 0.8)`.
+Kapalı durumda `visibility: hidden` — sekme sırası ve erişilebilirlik ağacı dışında.
+
+### Mobil tipografi alt sınırları (≤640px)
+
+| Öğe | Önce | Sonra |
+|---|---|---|
+| `.card__text` | 15px | 16px |
+| `.form__status` | 15px | 16px |
+| `.field__label` | 14px | 15px |
+| `.field__error`, `.form__summary-list` | 13/14px | 15px |
+| `.footer__copy` | 14px | 15px |
+| `.work__tag` | 12px | 13px |

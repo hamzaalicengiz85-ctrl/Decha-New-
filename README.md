@@ -193,3 +193,44 @@ döndürmüyor; GitHub üzerinden kurulum (`skills add <owner>/<repo>`) sorunsuz
 Projedeki `ui-ux-pro-max` skill'i doğrudan depoya kopyalanmış durumda (symlink
 değil), böylece klonlayan herkeste ve her yeni oturumda hazır geliyor;
 `skills list` onu proje skill'i olarak görüyor.
+
+## Adım 5 — Animasyonlar ve son rötuşlar
+
+### Fade-in-up scroll animasyonu
+
+Adım 2'de kurulan IntersectionObserver tabanlı reveal artık sayfadaki
+**25 öğeyi** kapsıyor: bölüm başlıkları, hizmet kartları, portfolyo görselleri,
+iletişim metni ve form. Aşağıdan yukarıya (14px) süzülerek, grup içinde 70ms
+kademeli gecikmeyle giriyorlar.
+
+### Yukarı çık butonu
+
+- Sağ altta sabit, turuncu, 52px (mobilde 48px) yuvarlak buton.
+- Yalnızca `max(320px, ekran yüksekliğinin %80'i)` kadar kaydırıldıktan sonra
+  görünür; kapalıyken `visibility: hidden` ile sekme sırasından ve
+  erişilebilirlik ağacından çıkar.
+- **Hash değiştirmiyor** (`<a href="#hero">` değil, `<button>` + `scrollTo`).
+  Sebep: `ux-guidelines.csv` → "Back Button" (severity: High) — tarayıcının geri
+  düğmesi bozulmamalı. Test edildi: `location.hash` ve `history.length`
+  tıklama sonrası değişmiyor.
+- Tıklayınca odak header'daki logoya taşınıyor (`preventScroll: true`), böylece
+  klavye kullanıcısı sayfanın başından devam ediyor.
+- `prefers-reduced-motion` açıkken yumuşak kaydırma yerine anında tepeye gidiyor.
+- Alt konumu `env(safe-area-inset-bottom)` ile çentikli ekranlara uyumlu.
+
+### Mobil denetim (375 × 812, 2x DPR)
+
+| Kontrol | Sonuç |
+|---|---|
+| Yatay taşma | yok (`scrollWidth` = 375) |
+| 44px altı dokunma hedefi | yok |
+| 16px altı **gövde** metni | yok |
+
+`ux-guidelines.csv` → "Readable Font Size" (severity: High) gereği mobilde
+büyütülenler: kart açıklamaları 15 → 16px, form durum mesajı 15 → 16px,
+form etiketleri 14 → 15px, hata metinleri 13 → 15px, footer telifi 14 → 15px,
+portfolyo kategori etiketi 12 → 13px.
+
+16px altında bilinçli olarak bırakılanlar, gövde metni değil UI mikro-kopyasıdır:
+`eyebrow` kickerları (13px, büyük harf + geniş harf aralığı), portfolyo kategori
+etiketleri (13px) ve form etiketleri (15px).

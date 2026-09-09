@@ -1055,6 +1055,53 @@ button { font: inherit; color: inherit; }
 .form__status--error { color: #FCA5A5; }
 
 /* =========================================================================
+   Yukarı çık butonu
+   ========================================================================= */
+.to-top {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: calc(clamp(1rem, 3vw, 2rem) + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  color: var(--on-accent);
+  background: linear-gradient(135deg, var(--ember-400), var(--ember-500) 50%, var(--ember-600));
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(255, 106, 26, 0.35),
+              0 0 0 1px rgba(255, 255, 255, 0.10) inset;
+
+  /* Kapalıyken sekme sırasından ve erişilebilirlik ağacından çıkar */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(14px) scale(0.9);
+  transition: opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out),
+              visibility var(--dur-base);
+}
+
+.to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+}
+
+.to-top:hover,
+.to-top:focus-visible {
+  box-shadow: 0 16px 40px rgba(255, 106, 26, 0.5),
+              0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+  transform: translateY(-3px);
+}
+.to-top:active { transform: scale(0.94); }
+
+/* =========================================================================
    Footer
    ========================================================================= */
 .footer {
@@ -1194,6 +1241,21 @@ button { font: inherit; color: inherit; }
    Hareket azaltma tercihi
    ========================================================================= */
 @media (max-width: 640px) {
+  /* Okunabilir gövde metni: mobilde en az 16px
+     (ux-guidelines.csv "Readable Font Size", severity: High) */
+  .card__text { font-size: 1rem; }
+  .form__status { font-size: 1rem; }
+  .field__label { font-size: 0.9375rem; }
+  .field__error,
+  .form__summary-list { font-size: 0.9375rem; }
+  .footer__copy { font-size: 0.9375rem; }
+  .work__tag { font-size: 0.8125rem; }
+
+  .to-top {
+    width: 48px;
+    height: 48px;
+  }
+
   .services__grid { grid-template-columns: minmax(0, 1fr); }
 
   .works__grid {

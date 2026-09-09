@@ -301,6 +301,47 @@
     });
   }
 
+  /* ---------- 5) Yukarı çık butonu ----------
+     Hash değiştirmiyoruz; tarayıcı geçmişi bozulmasın
+     (ux-guidelines.csv "Back Button", severity: High). */
+  var toTop = document.getElementById("toTop");
+
+  if (toTop) {
+    var showAfter = function () {
+      return Math.max(320, window.innerHeight * 0.8);
+    };
+    var toTopTicking = false;
+
+    var syncToTop = function () {
+      toTop.classList.toggle("is-visible", window.scrollY > showAfter());
+      toTopTicking = false;
+    };
+
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (!toTopTicking) {
+          window.requestAnimationFrame(syncToTop);
+          toTopTicking = true;
+        }
+      },
+      { passive: true }
+    );
+    window.addEventListener("resize", syncToTop);
+    syncToTop();
+
+    toTop.addEventListener("click", function () {
+      window.scrollTo({
+        top: 0,
+        behavior: reduceMotion.matches ? "auto" : "smooth"
+      });
+      // Klavye kullanıcısı sayfanın başından devam edebilsin;
+      // preventScroll ile yumuşak kaydırma bölünmüyor.
+      var logo = document.querySelector(".header .logo");
+      if (logo) logo.focus({ preventScroll: true });
+    });
+  }
+
   /* ---------- 5) Footer yılı ---------- */
   Array.prototype.forEach.call(document.querySelectorAll("[data-year]"), function (el) {
     el.textContent = String(new Date().getFullYear());

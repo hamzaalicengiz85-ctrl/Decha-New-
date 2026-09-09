@@ -96,3 +96,28 @@ python3 .claude/skills/ui-ux-pro-max/scripts/search.py "hero section responsive"
 # Komple tasarım sistemi önerisi
 python3 .claude/skills/ui-ux-pro-max/scripts/search.py "digital agency portfolio dark" --design-system -p "DECHA"
 ```
+
+## Skills CLI (skills.sh)
+
+Skill paketlerini yönetmek için [skills.sh](https://www.skills.sh) CLI'ı
+(`vercel-labs/skills`) kullanılıyor.
+
+```bash
+npm install -g skills          # kurulum (bu depoda v1.5.25 ile doğrulandı)
+skills list                    # projedeki skill'leri listele
+skills add <owner>/<repo> -l   # bir deponun içindeki skill'leri kurmadan listele
+skills add <owner>/<repo>      # projeye kur (-g ile kullanıcı geneli)
+skills update                  # kurulu skill'leri güncelle
+```
+
+**Bu ortama özel not:** oturum konteyneri geçici olduğu için global npm kurulumu
+kalıcı değil; yeni bir oturumda `npm install -g skills` komutunu tekrar çalıştırın.
+
+**Ağ kısıtı:** `www.skills.sh` bu ortamın egress proxy'si tarafından engelli
+(CONNECT tunnel 403). Bu yüzden kayıt defteri araması (`skills find`) sonuç
+döndürmüyor; GitHub üzerinden kurulum (`skills add <owner>/<repo>`) sorunsuz
+çalışıyor. Skill aramak için depo adını doğrudan vermek gerekiyor.
+
+Projedeki `ui-ux-pro-max` skill'i doğrudan depoya kopyalanmış durumda (symlink
+değil), böylece klonlayan herkeste ve her yeni oturumda hazır geliyor;
+`skills list` onu proje skill'i olarak görüyor.

@@ -93,7 +93,7 @@
           observer.unobserve(entry.target);
         });
       },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.05 }
+      { rootMargin: "0px 0px -10% 0px", threshold: 0 }
     );
 
     Array.prototype.forEach.call(revealTargets, function (el) {
@@ -103,6 +103,25 @@
       el.style.setProperty("--reveal-delay", Math.min(position, 5) * 70 + "ms");
       observer.observe(el);
     });
+
+    // rootMargin sayfanın alt %10'unu gözlem alanının dışında bırakıyor;
+    // sayfa sonuna gelindiğinde daha fazla kaydırma olmayacağı için
+    // kalan öğeleri burada açıyoruz (aksi halde son kart hiç görünmez).
+    var atBottom = function () {
+      if (window.innerHeight + window.scrollY >=
+          document.documentElement.scrollHeight - 32) {
+        showAll();
+      }
+    };
+    window.addEventListener("scroll", atBottom, { passive: true });
+    window.addEventListener("resize", atBottom);
+    // Font/görsel geç yüklenince sayfa uzayabilir; o anda "en alt" konumu
+    // değiştiği için yeniden değerlendiriyoruz.
+    window.addEventListener("load", atBottom);
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(atBottom).observe(document.body);
+    }
+    atBottom();
   }
 
   /* ---------- 4) Opsiyonel görseller ----------

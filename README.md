@@ -28,8 +28,37 @@ Bağımlılık yok: saf HTML + CSS + vanilla JS.
   Stiller yalnızca `.js` sınıfı altında uygulandığı için **JS kapalıyken içerik
   görünür kalır**; `prefers-reduced-motion` açıkken de anında görünür.
 
-`#islerimiz` ve `#iletisim` bölümleri şimdilik yalnızca boş kaydırma
-hedefleridir; sonraki adımlarda içerikleri eklenecek.
+## Adım 3 — İşlerimiz (Portfolyo)
+
+- **"Dijital İzlerimiz"** bölümü (`#islerimiz`), asimetrik grid.
+- Düzen `grid-template-areas` ile: masaüstünde 4 sütun (`a a b c / a a d d /
+  e e f f`), ≤1100px'te 2 sütun, ≤640px'te tek sütun (4:3 kartlar).
+- Kartlar: 12px köşe, `overflow: hidden`, hover'da görsel `scale(1.08)`
+  (620ms), siyah yarı saydam katman, turuncu kategori etiketi ve turuncu
+  kenarlık parlaması.
+- **Proje adı her zaman görünür**, hover'da güçlenir. Sebep: dokunmatik
+  cihazlarda hover yok (`ux-guidelines.csv` → "Hover vs Tap", severity: High).
+- Bölüm arka planı: çok hafif metalik gri radyal dalgalar + 115° geometrik
+  çizgi dokusu, üst/alt maskeyle siyaha eriyor — simsiyah bölümlerden ayrışıyor.
+
+### Yer tutucu görseller
+
+`assets/img/portfolio/proje-0X.svg` dosyaları `tools/generate-placeholders.py`
+ile üretiliyor (her biri ~1.5 KB, canlı gradyan + soyut geometri).
+
+```bash
+python3 tools/generate-placeholders.py
+```
+
+> **Dikkat:** Kartlardaki proje adları (Ember Kahve, Nova Fintech, Atlas Spor,
+> Kite Studio, Vertex Enerji, Lumen Festival) **kurgusal yer tutuculardır**,
+> gerçek müşteri işi değildir. Siteyi yayına almadan önce gerçek işlerinizle
+> değiştirin. Görselleri değiştirmek için `assets/img/portfolio/` içindeki
+> dosyaları kendi görsellerinizle (jpg/webp) değiştirip `index.html`'deki
+> `src` uzantılarını güncellemeniz yeterli.
+
+`#iletisim` bölümü şimdilik yalnızca boş kaydırma hedefidir; sonraki adımda
+içeriği eklenecek.
 
 ## Görseller
 

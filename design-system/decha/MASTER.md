@@ -106,3 +106,29 @@ hover kenarlık `rgba(255,106,26,.55)`, kalkış `-8px`, geçiş `280ms`.
 
 Kontrast: kart gövde metni `#8A9099` / kart zemini `#1C1D21` ≈ 4.9:1 (AA ✓),
 kart başlığı beyaz ≈ 14.7:1 (AAA ✓).
+
+---
+
+## Adım 3 — veri tabanı sorguları ve uygulanan kararlar
+
+| Sorgu | Sonuç | Uygulama |
+|---|---|---|
+| `"portfolio gallery showcase" --domain landing` | **Portfolio Grid**: masonry grid, "Visuals first", CTA kart hover'da, "Fast loading essential" | Asimetrik `grid-template-areas` düzeni; ~1.5 KB SVG yer tutucular, `loading="lazy"`, `width/height` ile CLS koruması |
+| `"hover only content reveal" --domain ux` | **"Hover vs Tap"** (severity: High): dokunmatikte hover çalışmaz, önemli bilgiyi yalnızca hover'a bağlama | Proje adı her zaman görünür; hover yalnızca katmanı, kategoriyi ve zoom'u ekliyor |
+
+Portfolyo bileşeni tokenları: kart yarıçapı `12px`, zoom `scale(1.08)` / `620ms`,
+hover katmanı `rgba(8,8,10,.15 → .88)` dikey gradyan, kenarlık hover
+`rgba(255,106,26,.5)`, görsel filtresi `saturate(1.12) contrast(1.06)`
+(hover'da `1.25 / 1.1`).
+
+Bölüm zemini: `#0B0C0F → #121319 → #0A0A0C` dikey gradyan + iki metalik gri
+radyal dalga + 115°'lik `repeating-linear-gradient` doku, üst/alt `mask-image`
+ile siyaha eriyor.
+
+### Scroll reveal davranışı hakkında not
+
+`rootMargin: 0 0 -10% 0` gözlem alanının alt %10'unu dışarıda bırakıyor.
+Sayfa daha fazla kaydırılamadığında bu banttaki öğeler hiç açılmayacağı için
+`main.js` içinde bir "sayfa sonu" koruması var; font/görsel geç yüklendiğinde
+sayfa yüksekliği değişebildiğinden `load` ve `ResizeObserver` ile de
+yeniden değerlendiriliyor.

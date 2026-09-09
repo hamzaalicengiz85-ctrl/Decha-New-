@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"
+     width="1000" height="1000" role="presentation">
+  <defs>
+    <linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF5757"/>
+      <stop offset="1" stop-color="#FF9A3C"/>
+    </linearGradient>
+    <radialGradient id="warm6" cx="0.3" cy="0.28" r="0.55">
+      <stop offset="0" stop-color="#FFD6A5" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#FFD6A5" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cool6" cx="0.78" cy="0.8" r="0.6">
+      <stop offset="0" stop-color="#4A0E0E" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#4A0E0E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="scrim6" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.45" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.42"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="1000" fill="url(#bg6)"/>
+  <rect width="1000" height="1000" fill="url(#warm6)"/>
+  <rect width="1000" height="1000" fill="url(#cool6)"/>
+
+  <!-- geometrik detaylar -->
+  <g fill="none" stroke="#FFFFFF" stroke-opacity="0.20" stroke-width="2">
+    <circle cx="280" cy="300" r="210"/>
+    <circle cx="280" cy="300" r="330"/>
+  </g>
+  <path d="M-40 540 L1040 660" stroke="#FFFFFF" stroke-opacity="0.28" stroke-width="3"/>
+  <path d="M-40 820 L1040 850" stroke="#000000" stroke-opacity="0.18" stroke-width="6"/>
+
+  <rect width="1000" height="1000" fill="url(#scrim6)"/>
+</svg>

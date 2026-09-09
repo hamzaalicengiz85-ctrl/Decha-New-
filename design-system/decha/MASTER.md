@@ -132,3 +132,39 @@ Sayfa daha fazla kaydırılamadığında bu banttaki öğeler hiç açılmayaca�
 `main.js` içinde bir "sayfa sonu" koruması var; font/görsel geç yüklendiğinde
 sayfa yüksekliği değişebildiğinden `load` ve `ResizeObserver` ile de
 yeniden değerlendiriliyor.
+
+---
+
+## Adım 4 — veri tabanı sorguları ve uygulanan kararlar
+
+`"form validation error label" --domain ux` sorgusu dört **High** kural döndürdü;
+dördü de uygulandı: Focusable Error Summary, Error Messages (duyurulan),
+Submit Feedback (loading → success/error), Form Labels (gerçek `<label for>`).
+
+### Form bileşeni tokenları
+
+| Öğe | Değer |
+|---|---|
+| Input zemini | `#1A1B1F` (hover/odak `#1E1F24`) |
+| Input kenarlığı | yalnızca alt: 1px `--steel-400` |
+| Odak göstergesi | alt çizgi 2px `--ember-500` + `0 6px 20px -6px rgba(255,106,26,.65)` |
+| Hata rengi | çizgi `#F87171`, metin `#FCA5A5` (+ uyarı ikonu) |
+| Form kartı | `#17181C → #121316`, 1px `--steel-600`, 16px yarıçap |
+
+### Gönder butonu: brief ile erişilebilirlik çakışması
+
+Brief "tamamen turuncu, beyaz kalın yazı" istiyor. Marka turuncusu
+`--ember-500` (#FF6A1A) üzerine beyaz metin **2.9:1** kontrast veriyor —
+AA için gereken 4.5:1'in altında (skill öncelik tablosu #1: Accessibility,
+CRITICAL).
+
+Çözüm: buton turuncu ve yazı beyaz kaldı, turuncu tonu geçer seviyeye kadar
+koyulaştırıldı: `#CF450A → #B93F08 → #9E3204` gradyanı, beyaz metinle
+**4.67:1 – 7.2:1**. Hero'daki parlak CTA (koyu metinli, ~8:1) olduğu gibi duruyor;
+iki buton bilinçli olarak farklı tonda.
+
+### Kaydırma boşluğu
+
+`html { scroll-padding-top }` tek başına yeterli; `.section` üzerinde ayrıca
+`scroll-margin-top` vermek boşluğu ikiye katlıyordu (96px yerine 168px).
+`scroll-margin-top` kaldırıldı.

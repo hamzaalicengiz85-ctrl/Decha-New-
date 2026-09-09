@@ -4,6 +4,16 @@
 (function () {
   "use strict";
 
+  /* =======================================================================
+     AYAR: Formun nereye gönderileceği.
+     - Boş bırakılırsa form, ziyaretçinin e-posta uygulamasını hazır bir
+       mesajla açar (ek kurulum gerekmez).
+     - Formspree / Basin / Netlify Forms gibi bir servisin POST adresini
+       yazarsanız form arka planda oraya gönderilir.
+     ======================================================================= */
+  var CONTACT_ENDPOINT = "";
+  var CONTACT_EMAIL = "merhaba@decha.com";
+
   /* ---------- 1) Sticky header'ın kaydırma durumu ---------- */
   var header = document.getElementById("header");
   var SCROLL_THRESHOLD = 12;
@@ -124,7 +134,179 @@
     atBottom();
   }
 
-  /* ---------- 4) Opsiyonel görseller ----------
+  /* ---------- 4) İletişim formu ----------
+     ui-ux-pro-max ux-guidelines: "Focusable Error Summary", "Error Messages",
+     "Submit Feedback", "Form Labels" (hepsi severity: High) */
+  var form = document.getElementById("contactForm");
+
+  if (form) {
+    var summary = document.getElementById("formSummary");
+    var summaryList = document.getElementById("formSummaryList");
+    var statusEl = document.getElementById("formStatus");
+    var submitBtn = document.getElementById("formSubmit");
+    var submitLabel = submitBtn.querySelector(".form__submit-label");
+
+    var RULES = [
+      {
+        id: "name",
+        test: function (v) { return v.trim().length >= 2; },
+        message: "Adınızı yazın (en az 2 karakter)."
+      },
+      {
+        id: "email",
+        test: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); },
+        message: "Geçerli bir e-posta adresi yazın."
+      },
+      {
+        id: "service",
+        test: function (v) { return v !== ""; },
+        message: "İlgilendiğiniz hizmeti seçin."
+      }
+    ];
+
+    function setFieldError(id, message) {
+      var input = document.getElementById(id);
+      var errorBox = document.getElementById(id + "-error");
+      var errorText = errorBox.querySelector(".field__error-text");
+      if (message) {
+        input.setAttribute("aria-invalid", "true");
+        errorText.textContent = message;
+        errorBox.hidden = false;
+      } else {
+        input.removeAttribute("aria-invalid");
+        errorText.textContent = "";
+        errorBox.hidden = true;
+      }
+    }
+
+    function setStatus(text, kind) {
+      statusEl.textContent = text;
+      statusEl.className = "form__status" + (kind ? " form__status--" + kind : "");
+    }
+
+    // Kullanıcı düzeltmeye başlayınca o alanın hatası kalksın
+    RULES.forEach(function (rule) {
+      var input = document.getElementById(rule.id);
+      var clear = function () {
+        if (input.getAttribute("aria-invalid") === "true" && rule.test(input.value)) {
+          setFieldError(rule.id, "");
+        }
+      };
+      input.addEventListener("input", clear);
+      input.addEventListener("change", clear);
+    });
+
+    function validate() {
+      var failures = [];
+      RULES.forEach(function (rule) {
+        var input = document.getElementById(rule.id);
+        var ok = rule.test(input.value);
+        setFieldError(rule.id, ok ? "" : rule.message);
+        if (!ok) failures.push(rule);
+      });
+      return failures;
+    }
+
+    function showSummary(failures) {
+      summaryList.innerHTML = "";
+      failures.forEach(function (rule) {
+        var li = document.createElement("li");
+        var link = document.createElement("a");
+        link.href = "#" + rule.id;
+        link.textContent = rule.message;
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          document.getElementById(rule.id).focus();
+        });
+        li.appendChild(link);
+        summaryList.appendChild(li);
+      });
+      summary.hidden = false;
+      summary.focus();
+    }
+
+    function setBusy(busy) {
+      submitBtn.disabled = busy;
+      submitLabel.textContent = busy ? "Gönderiliyor…" : "Gönder";
+    }
+
+    function payload() {
+      return {
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        service: document.getElementById("service").value
+      };
+    }
+
+    function sendByMail(data) {
+      var subject = "DECHA - Yeni proje talebi (" + data.service + ")";
+      var body =
+        "Ad: " + data.name + "\n" +
+        "E-posta: " + data.email + "\n" +
+        "İlgilenilen hizmet: " + data.service + "\n\n" +
+        "Projenizden kısaca bahsedin:\n";
+      setStatus(
+        "E-posta uygulamanız hazır bir mesajla açılıyor. Açılmazsa doğrudan " +
+        CONTACT_EMAIL + " adresine yazabilirsiniz.",
+        "ok"
+      );
+      window.location.href =
+        "mailto:" + CONTACT_EMAIL +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body);
+      setBusy(false);
+    }
+
+    function sendToEndpoint(data) {
+      fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(data)
+      })
+        .then(function (response) {
+          if (!response.ok) throw new Error("HTTP " + response.status);
+          form.reset();
+          setStatus("Teşekkürler! Mesajınız bize ulaştı, 48 saat içinde dönüş yapacağız.", "ok");
+        })
+        .catch(function () {
+          setStatus(
+            "Mesaj gönderilemedi. Lütfen tekrar deneyin veya " + CONTACT_EMAIL +
+            " adresine yazın.",
+            "error"
+          );
+        })
+        .then(function () { setBusy(false); });
+    }
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      var failures = validate();
+      if (failures.length) {
+        setStatus("", "");
+        showSummary(failures);
+        return;
+      }
+
+      summary.hidden = true;
+      setBusy(true);
+      setStatus("Gönderiliyor…", "");
+
+      var data = payload();
+      if (CONTACT_ENDPOINT) {
+        sendToEndpoint(data);
+      } else {
+        sendByMail(data);
+      }
+    });
+  }
+
+  /* ---------- 5) Footer yılı ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-year]"), function (el) {
+    el.textContent = String(new Date().getFullYear());
+  });
+
+  /* ---------- 6) Opsiyonel görseller ----------
      decha-logo.jpg / decha-ember-orb.jpg repoya eklenirse otomatik
      kullanılır; yoksa CSS ile üretilen logo ve küre görünür kalır. */
   Array.prototype.forEach.call(

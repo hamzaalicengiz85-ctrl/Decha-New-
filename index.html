@@ -280,9 +280,195 @@
       </div>
     </section>
 
-    <!-- Sonraki adımda doldurulacak bölüm (şimdilik sadece kaydırma hedefi) -->
-    <section id="iletisim" class="section-anchor" aria-hidden="true"></section>
+    <!-- ============ İLETİŞİM ============
+         NOT: E-posta, telefon ve sosyal medya bağlantıları YER TUTUCUDUR.
+         Yayına almadan önce gerçek bilgilerinizle değiştirin.
+         Formun nereye gönderileceği assets/js/main.js içindeki
+         CONTACT_ENDPOINT sabiti ile ayarlanır. -->
+    <section class="section contact" id="iletisim">
+      <div class="container contact__inner">
+
+        <div class="contact__intro">
+          <p class="eyebrow" data-reveal><span class="eyebrow__dot" aria-hidden="true"></span>İletişim</p>
+          <h2 class="section__title contact__title" data-reveal>
+            Birlikte <span class="contact__title-accent">Yaratalım</span>
+          </h2>
+          <span class="section__rule section__rule--left" data-reveal aria-hidden="true"></span>
+
+          <p class="contact__pitch" data-reveal>
+            Bir fikriniz mi var?
+            <strong class="contact__pitch-strong">Ateşini birlikte yakalım.</strong>
+            Kısa bir sohbet çoğu zaman en iyi başlangıçtır — projenizi anlatın,
+            48 saat içinde size dönelim.
+          </p>
+
+          <ul class="contact__list" data-reveal>
+            <li class="contact__item">
+              <span class="contact__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                     stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                  <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
+                  <path d="M3 7l9 6 9-6" />
+                </svg>
+              </span>
+              <a class="contact__link" href="mailto:merhaba@decha.com">merhaba@decha.com</a>
+            </li>
+            <li class="contact__item">
+              <span class="contact__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                     stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                  <path d="M5 3.5h3.2l1.6 4-2 1.4a12 12 0 007.3 7.3l1.4-2 4 1.6V19a1.6 1.6 0 01-1.8 1.6A16.5 16.5 0 013.4 5.3 1.6 1.6 0 015 3.5z" />
+                </svg>
+              </span>
+              <a class="contact__link" href="tel:+900000000000">+90 (5XX) XXX XX XX</a>
+            </li>
+            <li class="contact__item">
+              <span class="contact__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                     stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                  <path d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z" />
+                  <circle cx="12" cy="10" r="2.6" />
+                </svg>
+              </span>
+              <span class="contact__text">İstanbul, Türkiye</span>
+            </li>
+          </ul>
+
+          <ul class="socials" data-reveal>
+            <li>
+              <!-- TODO: gerçek profil bağlantısını ekleyin -->
+              <a class="social" href="#" aria-label="DECHA Instagram profili">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                     stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M17.3 6.7h.01" />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a class="social" href="#" aria-label="DECHA LinkedIn sayfası">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                     stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <rect x="3" y="3" width="18" height="18" rx="4" />
+                  <path d="M7.6 10.6v6M7.6 7.5v.01M11.6 16.6v-6M11.6 13.2c0-1.4 1-2.6 2.5-2.6s2.4 1.2 2.4 2.6v3.4" />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a class="social" href="#" aria-label="DECHA X (Twitter) hesabı">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                     stroke-width="1.9" stroke-linecap="round" aria-hidden="true" focusable="false">
+                  <path d="M4.5 4.5l15 15M19.5 4.5l-15 15" />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a class="social" href="#" aria-label="DECHA YouTube kanalı">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                     stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
+                  <path d="M10.4 9.4l5.2 2.6-5.2 2.6z" />
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <form class="form" id="contactForm" novalidate data-reveal>
+          <!-- Hata özeti: klavye ve ekran okuyucu için odaklanabilir
+               (ux-guidelines.csv "Focusable Error Summary", severity: High) -->
+          <div class="form__summary" id="formSummary" role="alert" tabindex="-1"
+               aria-labelledby="formSummaryTitle" hidden>
+            <h3 class="form__summary-title" id="formSummaryTitle">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 7.5v5M12 16.3h.01" />
+              </svg>
+              Formu gönderemedik
+            </h3>
+            <ul class="form__summary-list" id="formSummaryList"></ul>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="name">Adınız <span class="field__req" aria-hidden="true">*</span></label>
+            <input class="field__input" id="name" name="name" type="text"
+                   autocomplete="name" required aria-describedby="name-error" />
+            <p class="field__error" id="name-error" hidden>
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"
+                   stroke-width="2.2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="9" /><path d="M12 7.5v5M12 16.3h.01" />
+              </svg>
+              <span class="field__error-text"></span>
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="email">E-posta <span class="field__req" aria-hidden="true">*</span></label>
+            <input class="field__input" id="email" name="email" type="email"
+                   autocomplete="email" inputmode="email" required aria-describedby="email-error" />
+            <p class="field__error" id="email-error" hidden>
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"
+                   stroke-width="2.2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="9" /><path d="M12 7.5v5M12 16.3h.01" />
+              </svg>
+              <span class="field__error-text"></span>
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="service">Hangi hizmetle ilgileniyorsunuz? <span class="field__req" aria-hidden="true">*</span></label>
+            <div class="field__select-wrap">
+              <select class="field__input field__select" id="service" name="service"
+                      required aria-describedby="service-error">
+                <option value="" selected>Bir hizmet seçin</option>
+                <option value="App Geliştirme">App Geliştirme</option>
+                <option value="Web Tasarım">Web Tasarım</option>
+                <option value="Sosyal Medya">Sosyal Medya</option>
+                <option value="Dijital Pazarlama">Dijital Pazarlama</option>
+              </select>
+              <svg class="field__chevron" viewBox="0 0 24 24" width="18" height="18" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true" focusable="false">
+                <path d="M6 9.5l6 6 6-6" />
+              </svg>
+            </div>
+            <p class="field__error" id="service-error" hidden>
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"
+                   stroke-width="2.2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="9" /><path d="M12 7.5v5M12 16.3h.01" />
+              </svg>
+              <span class="field__error-text"></span>
+            </p>
+          </div>
+
+          <button class="btn btn--primary form__submit" id="formSubmit" type="submit">
+            <span class="form__submit-label">Gönder</span>
+            <svg class="btn__icon" viewBox="0 0 24 24" width="18" height="18" fill="none"
+                 stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </button>
+
+          <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+
+      </div>
+    </section>
   </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a class="logo footer__logo" href="#hero" aria-label="DECHA ana sayfa">
+        <span class="logo__text">DECHA<span class="logo__dot" aria-hidden="true"></span></span>
+      </a>
+      <p class="footer__copy">
+        &copy; <span data-year>2026</span> DECHA. Tüm hakları saklıdır.
+      </p>
+    </div>
+  </footer>
 
   <script src="assets/js/main.js" defer></script>
 </body>

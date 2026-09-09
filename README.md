@@ -57,8 +57,51 @@ python3 tools/generate-placeholders.py
 > dosyaları kendi görsellerinizle (jpg/webp) değiştirip `index.html`'deki
 > `src` uzantılarını güncellemeniz yeterli.
 
-`#iletisim` bölümü şimdilik yalnızca boş kaydırma hedefidir; sonraki adımda
-içeriği eklenecek.
+## Adım 4 — İletişim ve Footer
+
+- **"Birlikte Yaratalım"** bölümü (`#iletisim`), iki kolon: solda samimi metin +
+  iletişim bilgileri + sosyal medya ikonları (gri → hover'da turuncu),
+  sağda iletişim formu. ≤960px'te tek kolona iniyor.
+- **Form alanları:** Adınız, E-posta, "Hangi hizmetle ilgileniyorsunuz?"
+  (App Geliştirme / Web Tasarım / Sosyal Medya / Dijital Pazarlama).
+- **Kutu tasarımı:** koyu metalik gri zemin (`#1A1B1F`), yalnızca alt kenarlık;
+  odakta alt çizgi turuncu parlıyor (2px + glow — görünür odak göstergesi).
+- **Gönder butonu:** turuncu, beyaz kalın yazı, tıklayınca `scale(0.97)`.
+- **Footer:** siyah, DECHA logosu + "© 2026 DECHA. Tüm hakları saklıdır."
+  (yıl JS ile güncel tutuluyor, JS yoksa 2026 yazılı kalır).
+
+### Form doğrulama ve erişilebilirlik
+
+`ui-ux-pro-max` ux-guidelines'daki dört High kural uygulandı:
+
+| Kural | Uygulama |
+|---|---|
+| Focusable Error Summary | Formun üstünde `role="alert" tabindex="-1"` özet kutusu; her madde ilgili alana bağlantı; başarısız gönderimde odak özete taşınıyor |
+| Error Messages | Hatalar `role="alert"` ile duyuruluyor; ikon + metin (renk tek başına anlam taşımıyor) |
+| Submit Feedback | Buton "Gönderiliyor…" durumuna geçiyor, ardından başarı/hata mesajı `role="status"` ile bildiriliyor |
+| Form Labels | Her alanda gerçek `<label for>`; placeholder etiket olarak kullanılmıyor |
+
+Ek olarak: `aria-invalid`, `aria-describedby`, `autocomplete` ve `inputmode`
+öznitelikleri; kullanıcı düzeltmeye başlayınca ilgili alanın hatası kalkıyor.
+
+### Formu bir servise bağlama
+
+`assets/js/main.js` dosyasının başındaki iki sabit:
+
+```js
+var CONTACT_ENDPOINT = "";              // Formspree / Basin / Netlify Forms POST adresi
+var CONTACT_EMAIL = "merhaba@decha.com"; // endpoint boşken kullanılan adres
+```
+
+- **Boşken** (varsayılan): form doğrulanır, sonra ziyaretçinin e-posta
+  uygulaması hazır bir mesajla açılır. Ek kurulum gerekmez, hiçbir şey
+  "gönderildi" gibi gösterilmez.
+- **Adres girildiğinde:** form JSON olarak o adrese `POST` edilir; başarı ve
+  hata durumları kullanıcıya bildirilir.
+
+> **Yer tutucular:** `merhaba@decha.com`, `+90 (5XX) XXX XX XX`,
+> `İstanbul, Türkiye` ve sosyal medya bağlantıları (`href="#"`) örnek
+> değerlerdir. Yayına almadan önce gerçek bilgilerinizle değiştirin.
 
 ## Görseller
 

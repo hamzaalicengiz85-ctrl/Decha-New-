@@ -80,6 +80,8 @@ body {
 }
 
 img { max-width: 100%; display: block; }
+/* display kuralları [hidden]'ı ezmesin (ör. .field__error { display: flex }) */
+[hidden] { display: none !important; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; margin: 0; padding: 0; }
 button { font: inherit; color: inherit; }
@@ -519,7 +521,8 @@ button { font: inherit; color: inherit; }
 .section {
   position: relative;
   padding-block: clamp(4rem, 9vw, 7rem);
-  scroll-margin-top: var(--header-h);
+  /* Kaydırma boşluğu html'deki scroll-padding-top ile veriliyor;
+     burada tekrar scroll-margin vermek boşluğu ikiye katlıyordu. */
   background: var(--bg);
 }
 
@@ -790,6 +793,290 @@ button { font: inherit; color: inherit; }
 .work__figure:hover .work__title { transform: translateY(-2px); }
 
 /* =========================================================================
+   İletişim
+   ========================================================================= */
+.contact {
+  position: relative;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background:
+    radial-gradient(70% 50% at 88% 12%, rgba(255, 106, 26, 0.10), transparent 62%),
+    var(--bg);
+}
+
+.contact__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.contact__title { margin: 0; }
+.contact__title-accent {
+  background: linear-gradient(100deg, var(--ember-300), var(--ember-500) 55%, var(--ember-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Sol hizalı vurgu çizgisi (ortalanmış varyantın kardeşi) */
+.section__rule--left { margin-inline: 0; }
+
+.contact__pitch {
+  margin: var(--space-3) 0 var(--space-4);
+  max-width: 46ch;
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  color: var(--text-muted);
+}
+.contact__pitch-strong {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--white);
+}
+
+.contact__list {
+  display: grid;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+.contact__item {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+.contact__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  color: var(--ember-400);
+  background: rgba(255, 106, 26, 0.09);
+  border: 1px solid rgba(255, 106, 26, 0.20);
+  border-radius: 12px;
+}
+.contact__link,
+.contact__text {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--steel-200);
+  font-size: 1rem;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.contact__link:hover,
+.contact__link:focus-visible { color: var(--accent); }
+
+/* Sosyal medya */
+.socials {
+  display: flex;
+  gap: 0.625rem;
+}
+.social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  color: var(--steel-300);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: color var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out),
+              background-color var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
+}
+.social:hover,
+.social:focus-visible {
+  color: var(--accent);
+  border-color: rgba(255, 106, 26, 0.5);
+  background: rgba(255, 106, 26, 0.10);
+  transform: translateY(-3px);
+}
+
+/* =========================================================================
+   Form
+   ========================================================================= */
+.form {
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  background: linear-gradient(180deg, #17181C 0%, #121316 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.field { margin-bottom: var(--space-3); }
+
+.field__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--steel-200);
+}
+.field__req { color: var(--ember-400); }
+
+/* Minimalist kutular: koyu metalik gri zemin, yalnızca alt kenarlık */
+.field__input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0.75rem 0.875rem;
+  font: inherit;
+  color: var(--white);
+  background: #1A1B1F;
+  border: 0;
+  border-bottom: 1px solid var(--steel-400);
+  border-radius: 8px 8px 0 0;
+  outline: none;
+  transition: border-color var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out),
+              background-color var(--dur-base) var(--ease-out);
+}
+.field__input::placeholder { color: var(--steel-400); }
+
+.field__input:hover { background: #1E1F24; }
+
+/* Odakta alt çizgi turuncu parlar — görünür odak göstergesi olarak
+   2px kalınlık + yüksek kontrast (WCAG 1.4.11 / 2.4.11) */
+.field__input:focus {
+  background: #1E1F24;
+  border-bottom-color: var(--accent);
+  box-shadow: 0 2px 0 0 var(--accent),
+              0 6px 20px -6px rgba(255, 106, 26, 0.65);
+}
+
+.field__input[aria-invalid="true"] {
+  border-bottom-color: #F87171;
+  box-shadow: 0 2px 0 0 #F87171;
+}
+
+/* Açılır menü */
+.field__select-wrap { position: relative; }
+.field__select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.75rem;
+  cursor: pointer;
+}
+.field__select option {
+  background: #1A1B1F;
+  color: var(--white);
+}
+.field__chevron {
+  position: absolute;
+  right: 0.875rem;
+  top: 50%;
+  translate: 0 -50%;
+  color: var(--steel-300);
+  pointer-events: none;
+}
+
+/* Hata mesajları: renk tek başına anlam taşımasın — ikon + metin
+   (ux-guidelines.csv "Color Only", severity: High) */
+.field__error {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0;
+  font-size: 0.8125rem;
+  color: #FCA5A5;
+}
+.field__error svg { flex: none; }
+
+/* Hata özeti */
+.form__summary {
+  margin-bottom: var(--space-3);
+  padding: var(--space-2);
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  border-radius: var(--radius-sm);
+}
+.form__summary:focus-visible {
+  outline: 2px solid #FCA5A5;
+  outline-offset: 2px;
+}
+.form__summary-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #FCA5A5;
+}
+.form__summary-list {
+  display: grid;
+  gap: 0.25rem;
+  padding-left: 1.5rem;
+  list-style: disc;
+  font-size: 0.875rem;
+}
+.form__summary-list a {
+  color: #FCA5A5;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.form__summary-list a:hover { color: var(--white); }
+
+.form__submit {
+  width: 100%;
+  margin-top: var(--space-1);
+  color: var(--white);          /* beyaz kalın yazı */
+  font-weight: 700;
+  /* Marka turuncusunun koyu tonu: beyaz metinle 4.67:1 - 7.2:1 kontrast.
+     Parlak --ember-500 üzerinde beyaz yazı 2.9:1'de kalıyordu (AA altı). */
+  background: linear-gradient(135deg, #CF450A 0%, #B93F08 55%, #9E3204 100%);
+  box-shadow: 0 10px 30px rgba(207, 69, 10, 0.32);
+}
+.form__submit:hover,
+.form__submit:focus-visible {
+  box-shadow: 0 16px 44px rgba(255, 106, 26, 0.42);
+}
+.form__submit:active { transform: scale(0.97); }
+.form__submit[disabled] {
+  opacity: 0.75;
+  cursor: progress;
+  transform: none;
+}
+
+.form__status {
+  margin: var(--space-2) 0 0;
+  min-height: 1.25rem;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}
+.form__status--ok { color: #86EFAC; }
+.form__status--error { color: #FCA5A5; }
+
+/* =========================================================================
+   Footer
+   ========================================================================= */
+.footer {
+  padding-block: var(--space-4);
+  background: var(--ink-900);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.footer__logo .logo__text { font-size: 1.125rem; }
+.footer__copy {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--steel-300);
+}
+
+/* =========================================================================
    Scroll reveal — yalnızca JS varken gizlenir (no-JS'te içerik görünür kalır)
    Kaynak: ui-ux-pro-max motion.csv "Scroll Reveal / Subtle"
    (y offset 8-16px, 300-400ms, viewport girişinde tetiklenir)
@@ -805,9 +1092,6 @@ button { font: inherit; color: inherit; }
   opacity: 1;
   transform: none;
 }
-
-/* Sonraki adımlarda doldurulacak bölümlerin kaydırma hedefleri */
-.section-anchor { scroll-margin-top: var(--header-h); }
 
 /* =========================================================================
    Responsive
@@ -836,6 +1120,8 @@ button { font: inherit; color: inherit; }
 }
 
 @media (max-width: 960px) {
+  .contact__inner { grid-template-columns: minmax(0, 1fr); }
+
   .hero__inner {
     grid-template-columns: 1fr;
     gap: var(--space-5);
@@ -893,6 +1179,10 @@ button { font: inherit; color: inherit; }
   .hero { padding-top: calc(var(--header-h) + var(--space-4)); }
   .section__head { margin-bottom: var(--space-5); }
   .btn { width: 100%; }
+  .footer__inner {
+    flex-direction: column;
+    text-align: center;
+  }
   .hero__actions {
     width: min(340px, 100%);
     margin-inline: auto;
